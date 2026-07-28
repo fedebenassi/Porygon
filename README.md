@@ -1,10 +1,10 @@
 # Porygon
+![Demo animation](assets/porygon.gif)
+(I know, this is a Porygon-Z)
 
 A LLM-based competitive Pokémon team-building script, built during my free time.
 
 Next step: add battles between LLMs!
-
-![Demo animation](assets/porygon.gif)
 
 ## Overview
 
