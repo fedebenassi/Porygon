@@ -15,7 +15,7 @@ This repo contains utilities to automate research and team building workflows us
 - Team research, construction and serialization (`team_builder.py`).
 - Stores generated outputs under the `outputs/` folder.
 - Rules reference for formats and constraints under `rules/`.
-- Built throught the [https://github.com/datapizza-labs/datapizza-ai](datapizza-ai) framework
+- Built with the [datapizza-ai](https://github.com/datapizza-labs/datapizza-ai) framework
 
 ## Quickstart
 
