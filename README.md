@@ -1,6 +1,7 @@
 # Porygon
 
-A LLM-based competitive Pokémon team building script, built during my free time.
+A LLM-based competitive Pokémon team-building script, built during my free time.
+
 Next step: add battles between LLMs!
 
 ![Demo animation](assets/porygon.gif)
