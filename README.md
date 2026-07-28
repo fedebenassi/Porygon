@@ -40,7 +40,7 @@ ANTHROPIC_API_KEY=your_key
 OPENAI_API_KEY=your_key
 ```
 4. Adjust your config and prompts by modifying the `config.py` and `prompts.py` files. If you change `FORMAT`, make sure to add a
-`{FORMAT}.txt` in `rules/` folder.
+`{FORMAT}.txt` in `rules/` folder with the rules of your format.
 
 6. Build and evaluate teams with the team builder:
 
