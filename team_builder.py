@@ -32,6 +32,9 @@ from datapizza.tools import tool
 from dotenv import load_dotenv
 load_dotenv()
 
+from config import *
+from prompts import *
+
 POKEAPI_BASE = "https://pokeapi.co/api/v2"
 
 
@@ -122,10 +125,6 @@ def validate_team(team: Team) -> list[str]:
 # 4. Client builders: each provider/model combination gets its own Agent
 # ---------------------------------------------------------------------------
 
-def load_text(file_path: str) -> str:
-    with open(file_path, "r", encoding="utf-8") as f:
-        return f.read()
-
 def call_client(provider, model):
     if provider == "openai":
         from datapizza.clients.openai import OpenAIClient
@@ -177,57 +176,9 @@ def run_pipeline(provider, model) -> Team:
 # ---------------------------------------------------------------------------
 # 5. System prompt: instructions for the LLM to build a competitive team
 # ---------------------------------------------------------------------------
-FORMAT = 'VGC'
-rules = load_text(f"rules/{FORMAT}.txt")
-
-RESEARCH_SYSTEM_PROMPT = f"""You are a competitive Pokemon player experienced in the {FORMAT} format.
-
-Format rules:
-{rules}
-
-Your task in this step is ONLY to research candidate Pokemon for a team —
-you are NOT building the final team yet.
-
-Use the get_pokemon_data tool to check real stats, types, and abilities
-before considering a Pokemon: do not make up numbers from memory.
-
-Explore candidates covering different roles (physical sweeper, special sweeper,
-wall, hazard setter, support, revenge killer) that fit together as a coherent
-team and cover common meta threats. Aim for 8-10 candidates so the next step
-has options to choose from.
-
-Report your findings in a clear, organized way: for each candidate, note its
-role, key stats, typing, and why it fits the team. Do not produce a final
-JSON team here, just the research. Output only what is requested, no extra text or commentary."""
-
-
-COMPILER_SYSTEM_PROMPT = f"""You are a competitive Pokemon player experienced in the {FORMAT} format.
-
-Format rules:
-{rules}
-
-You will receive research notes on candidate Pokemon collected in a previous
-step. Your task is to select exactly 6 of them and compile the final team,
-with full movesets, EVs, items, natures, and abilities, respecting the
-constraints below.
-
-Provide a competitively sensible EV spread to every Pokemon. Never leave EVs empty.
-
-Constraints:
-- Species clause: no duplicate Pokemon.
-- Each Pokemon has exactly 4 distinct moves.
-- Total EVs per Pokemon <= 510, individual EV <= 252.
-- Adhere to the banlist of the indicated format.
-
-Respond exclusively with the requested structured object."""
-
-COMPETITORS = [
-    #("openai", "gpt-4.1"),
-    ("anthropic", "claude-sonnet-4-6"),
-    # add other providers/models as needed
-]
 
 def main():
+
     results = {}
     for provider, model in COMPETITORS:
         os.makedirs(f"outputs/{provider}-{model}", exist_ok=True)
@@ -246,7 +197,7 @@ def main():
         print("Legal" if not errors else f"Errors: {errors}")
 
         with open(f"outputs/{provider}-{model}/team.json", "w", encoding="utf-8") as f:
-            json.dump(team, f, ensure_ascii=False, indent=2)
+            json.dump(results[f"{provider}-{model}"], f, ensure_ascii=False, indent=2)
 
     with open(f"outputs/{provider}-{model}/team.json", "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)

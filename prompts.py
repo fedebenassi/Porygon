@@ -3,17 +3,18 @@ from utils import load_text
 
 rules = load_text(f"rules/{FORMAT}.txt")
 
-# ---------------------------------------------------------------------------
-# 1. Team builder prompts: instructions for the LLM to research and compile a competitive team
-# ---------------------------------------------------------------------------
-
-RESEARCH_SYSTEM_PROMPT = f"""You are a competitive Pokemon player experienced in the {FORMAT} format.
+HEAD = f"""You are a competitive Pokemon player experienced in the {FORMAT} format.
 
 Format rules:
 {rules}
 
-Your task in this step is ONLY to research candidate Pokemon for a team —
-you are NOT building the final team yet.
+"""
+
+# ---------------------------------------------------------------------------
+# 1. Team builder prompts: instructions for the LLM to research and compile a competitive team
+# ---------------------------------------------------------------------------
+
+RESEARCH_SYSTEM_PROMPT = f"""{HEAD}
 
 Use the get_pokemon_data tool to check real stats, types, and abilities
 before considering a Pokemon: do not make up numbers from memory.
@@ -28,10 +29,7 @@ role, key stats, typing, and why it fits the team. Do not produce a final
 JSON team here, just the research. Output only what is requested, no extra text or commentary."""
 
 
-COMPILER_SYSTEM_PROMPT = f"""You are a competitive Pokemon player experienced in the {FORMAT} format.
-
-Format rules:
-{rules}
+COMPILER_SYSTEM_PROMPT = f"""{HEAD}
 
 You will receive research notes on candidate Pokemon collected in a previous
 step. Your task is to select exactly 6 of them and compile the final team,
