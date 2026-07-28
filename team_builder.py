@@ -119,8 +119,9 @@ def validate_team(team: Team) -> list[str]:
 
 
 # ---------------------------------------------------------------------------
-# 5. Client builders: each provider/model combination gets its own Agent
+# 4. Client builders: each provider/model combination gets its own Agent
 # ---------------------------------------------------------------------------
+
 def load_text(file_path: str) -> str:
     with open(file_path, "r", encoding="utf-8") as f:
         return f.read()
@@ -172,16 +173,11 @@ def run_pipeline(provider, model) -> Team:
 
     return compile_result.structured_data[0]  # istanza di Team
 
-# ---------------------------------------------------------------------------
-# 6. Main: each provider/model builds a team, validates it, and saves the results to JSON
-# ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# 5. System prompt: instructions for the LLM to build a competitive team
+# ---------------------------------------------------------------------------
 FORMAT = 'VGC'
-
-
-# ---------------------------------------------------------------------------
-# 4. System prompt: instructions for the LLM to build a competitive team
-# ---------------------------------------------------------------------------
 rules = load_text(f"rules/{FORMAT}.txt")
 
 RESEARCH_SYSTEM_PROMPT = f"""You are a competitive Pokemon player experienced in the {FORMAT} format.
@@ -255,29 +251,6 @@ def main():
     with open(f"outputs/{provider}-{model}/team.json", "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
     print("\nTeams saved to teams.json")
-
-
-# def main():
-#     results = {}
-#     for provider, model in COMPETITORS:
-#         print(f"\n=== {provider} / {model} ===")
-#         agent = build_agent(provider, model)
-#         step_result = agent.run(TASK)
-#         team: Team = step_result.output  # istanza validata di Team
-#         errors = validate_team(team)
-
-#         results[f"{provider}-{model}"] = {
-#             "team": team.model_dump(),
-#             "validation_errors": errors,
-#         }
-
-#         print(f"Team: {[m.species for m in team.members]}")
-#         print("Legal" if not errors else f"Errors: {errors}")
-
-#     with open("teams.json", "w", encoding="utf-8") as f:
-#         json.dump(results, f, ensure_ascii=False, indent=2)
-#     print("\nTeams saved to teams.json")
-
 
 if __name__ == "__main__":
     main()
