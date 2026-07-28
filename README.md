@@ -4,11 +4,11 @@
 
 A LLM-based competitive Pokémon team-building script, built during my free time.
 
-Next step: add battles between LLMs!
-
 ## Overview
 
-This repo contains utilities to automate research and team building workflows using LLMs. It includes a research agent for generating insights and outputs, a team builder script for assembling teams, and example data and outputs from experiments.
+This repo contains utilities to automate research and team building workflows using LLMs. It includes a research agent for generating insights and outputs, and a team builder script for assembling teams.
+
+Next step: add **battles between LLMs**!
 
 ## Features
 
@@ -48,11 +48,11 @@ OPENAI_API_KEY=your_key
 python team_builder.py
 ```
 
-Adjust any script flags or configuration as needed; check the top of each script for usage notes.
-
 ## Project structure
 
-- `team_builder.py`: utilities to construct and manipulate Pokémon teams.
+- `team_builder.py`: utilities to construct and manipulate Pokémon teams. It consists of a *researcher* agent, looking for candidate Pokémon compatible to the format, and a *compiler* agent, building the team from the list of Pokémon provided.
+- `prompts.py`: contains the prompts used for the agents.
+- `config.py`: contains the format and the LLMs to use.
 - `outputs/`: directory containing model outputs and experiment artifacts.
 - `rules/VGC.txt`: rule descriptions and constraints used by the tools.
 
