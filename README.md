@@ -34,8 +34,13 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+3. Put your LLM API keys (currently supported: OpenAI and Anthropic) in a `.env` file:
+```bash
+ANTHROPIC_API_KEY=your_key
+OPENAI_API_KEY=your_key
+```
 
-3. Build or evaluate teams with the team builder:
+4. Build or evaluate teams with the team builder:
 
 ```bash
 python team_builder.py
